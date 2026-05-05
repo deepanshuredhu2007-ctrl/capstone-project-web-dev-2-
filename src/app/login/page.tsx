@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -8,95 +9,66 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase, ShieldCheck, User, Loader2 } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Briefcase, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (role: 'Admin' | 'Viewer') => {
+  const handleLogin = () => {
     setIsLoading(true);
-    // Simulate API call
+    // Simulating a quick sign in
     setTimeout(() => {
       dispatch(login({
         id: '1',
-        email: 'user@jobtrackpro.com',
-        name: role === 'Admin' ? 'Alex Johnson' : 'Sam Smith',
-        role: role
+        email: 'user@example.com',
+        name: 'Friend',
+        role: 'Admin'
       }));
       router.push('/dashboard');
-    }, 1000);
+    }, 800);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F4F7F8] dark:bg-slate-950 p-4">
-      <div className="w-full max-w-md space-y-8 animate-in fade-in zoom-in duration-500">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center bg-primary rounded-xl p-2.5 mb-2 shadow-lg shadow-primary/20">
-            <Briefcase className="w-8 h-8 text-primary-foreground" />
+          <div className="inline-flex items-center justify-center bg-primary text-primary-foreground rounded-2xl p-3 mb-2 shadow-lg">
+            <Briefcase className="w-8 h-8" />
           </div>
-          <h1 className="text-4xl font-bold font-headline tracking-tight text-primary">JobTrack<span className="text-accent">Pro</span></h1>
-          <p className="text-muted-foreground">The ultimate career pursuit dashboard</p>
+          <h1 className="text-3xl font-bold font-headline tracking-tight">Welcome back!</h1>
+          <p className="text-muted-foreground">Sign in to see your jobs.</p>
         </div>
 
-        <Card className="border-none shadow-xl">
+        <Card className="border shadow-lg rounded-3xl">
           <CardHeader>
             <CardTitle>Sign In</CardTitle>
-            <CardDescription>Select your access role to continue.</CardDescription>
+            <CardDescription>Enter your details below.</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="Admin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="Admin" className="gap-2">
-                  <ShieldCheck className="w-4 h-4" /> Admin
-                </TabsTrigger>
-                <TabsTrigger value="Viewer" className="gap-2">
-                  <User className="w-4 h-4" /> Viewer
-                </TabsTrigger>
-              </TabsList>
-              
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="name@company.com" defaultValue="demo@jobtrack.pro" />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
-                    <Button variant="link" className="px-0 h-auto text-xs">Forgot password?</Button>
-                  </div>
-                  <Input id="password" type="password" defaultValue="password123" />
-                </div>
-              </div>
-
-              <TabsContent value="Admin">
-                <Button 
-                  className="w-full mt-6 bg-primary" 
-                  onClick={() => handleLogin('Admin')}
-                  disabled={isLoading}
-                >
-                  {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Sign in as Admin'}
-                </Button>
-              </TabsContent>
-              <TabsContent value="Viewer">
-                <Button 
-                  className="w-full mt-6 bg-primary" 
-                  onClick={() => handleLogin('Viewer')}
-                  disabled={isLoading}
-                >
-                  {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Sign in as Viewer'}
-                </Button>
-              </TabsContent>
-            </Tabs>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email address</Label>
+              <Input id="email" type="email" placeholder="you@example.com" defaultValue="demo@jobbuddy.me" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" defaultValue="password123" />
+            </div>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-4 text-center">
-            <p className="text-xs text-muted-foreground">
-              By clicking continue, you agree to our Terms of Service and Privacy Policy.
-            </p>
+          <CardFooter>
+            <Button 
+              className="w-full h-11 rounded-xl text-lg" 
+              onClick={handleLogin}
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : 'Sign In'}
+            </Button>
           </CardFooter>
         </Card>
+        <p className="text-center text-sm text-muted-foreground">
+          Don't have an account? <Button variant="link" className="p-0 h-auto font-semibold">Join the waitlist</Button>
+        </p>
       </div>
     </div>
   );

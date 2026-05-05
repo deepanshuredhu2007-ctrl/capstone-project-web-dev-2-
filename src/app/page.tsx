@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect } from 'react';
@@ -5,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Sparkles, TrendingUp, Shield } from 'lucide-react';
+import { Briefcase, Heart, Sparkles, Smile } from 'lucide-react';
 
 export default function Home() {
   const router = useRouter();
@@ -19,73 +20,65 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center border-b">
+      <nav className="container mx-auto px-6 py-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <Briefcase className="w-6 h-6 text-primary" />
-          <span className="text-xl font-bold font-headline text-primary">JobTrack<span className="text-accent">Pro</span></span>
+          <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
+            <Briefcase className="w-5 h-5" />
+          </div>
+          <span className="text-xl font-bold font-headline tracking-tight">JobBuddy</span>
         </div>
-        <Button onClick={() => router.push('/login')} variant="outline">Sign In</Button>
+        <Button onClick={() => router.push('/login')} variant="ghost">Sign In</Button>
       </nav>
 
-      <main className="container mx-auto px-6 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 mb-4 px-4 py-1 text-sm rounded-full">
-            Version 2.0 Now Live
-          </Badge>
-          <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tighter leading-tight">
-            Stop Searching. <br /><span className="text-primary italic">Start Executing.</span>
+      <main className="container mx-auto px-6 pt-20 pb-12 text-center">
+        <div className="max-w-3xl mx-auto space-y-6">
+          <h1 className="text-4xl md:text-6xl font-bold font-headline leading-tight">
+            Your friendly career <span className="text-primary">companion.</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            The professional suite for managing your career transition. Track applications, interviews, and offers with AI-powered insights and visual analytics.
+          <p className="text-lg text-muted-foreground">
+            Simple, stress-free job tracking. Keep your applications organized, get helpful suggestions, and focus on landing that dream role.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-            <Button size="lg" className="h-14 px-8 text-lg font-medium shadow-xl shadow-primary/20" onClick={() => router.push('/login')}>
-              Start Tracking Pro
-            </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-medium">
-              View Features
+          <div className="pt-8">
+            <Button size="lg" className="h-14 px-10 text-lg rounded-full shadow-lg hover:scale-105 transition-transform" onClick={() => router.push('/login')}>
+              Get Started for Free
             </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24">
-          <FeatureCard 
-            icon={<TrendingUp className="w-6 h-6 text-primary" />}
-            title="Visual Analytics"
-            description="Understand your conversion rates from applied to interviewed to offered with beautiful interactive charts."
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 max-w-5xl mx-auto">
+          <Card 
+            icon={<Heart className="w-6 h-6 text-primary" />}
+            title="Keep it Simple"
+            description="No complex spreadsheets. Just a clean list of where you stand with every company."
           />
-          <FeatureCard 
+          <Card 
             icon={<Sparkles className="w-6 h-6 text-accent" />}
-            title="AI Application Assistant"
-            description="Get status-aware suggestions for your notes and drafted follow-up messages using our intelligent AI engine."
+            title="Helpful AI"
+            description="Not sure what to say in a follow-up? Our little assistant can draft a note for you."
           />
-          <FeatureCard 
-            icon={<Shield className="w-6 h-6 text-blue-500" />}
-            title="Role-Based Security"
-            description="Manage your job data with confidence using secure authentication and tiered access controls."
+          <Card 
+            icon={<Smile className="w-6 h-6 text-orange-400" />}
+            title="Your Progress"
+            description="See how far you've come with a clear view of your interviews and offers."
           />
         </div>
       </main>
 
-      <footer className="container mx-auto px-6 py-10 mt-20 border-t text-center text-sm text-muted-foreground">
-        &copy; {new Date().getFullYear()} JobTrack Pro. Developed for the Modern Career Explorer.
+      <footer className="container mx-auto px-6 py-12 mt-12 border-t text-center text-sm text-muted-foreground">
+        Made with ❤️ for everyone looking for their next big thing.
       </footer>
     </div>
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function Card({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <div className="p-8 rounded-2xl border bg-card shadow-sm hover:shadow-md transition-all duration-300">
-      <div className="mb-4 bg-muted/30 w-12 h-12 flex items-center justify-center rounded-xl">
+    <div className="p-8 rounded-3xl bg-card border shadow-sm hover:shadow-md transition-shadow">
+      <div className="mb-4 bg-muted w-12 h-12 flex items-center justify-center rounded-2xl">
         {icon}
       </div>
-      <h3 className="text-xl font-bold font-headline mb-3">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{description}</p>
+      <h3 className="text-xl font-bold font-headline mb-2">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
     </div>
   );
-}
-
-function Badge({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return <div className={`inline-flex items-center border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`} {...props}>{children}</div>
 }

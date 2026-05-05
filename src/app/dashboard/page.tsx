@@ -1,3 +1,4 @@
+
 'use client';
 
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
@@ -15,7 +16,11 @@ import { useRouter } from 'next/navigation';
 export default function DashboardPage() {
   const router = useRouter();
   const { applications } = useSelector((state: RootState) => state.jobs);
-  const recentApplications = [...applications].sort((a, b) => new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime()).slice(0, 4);
+  const { user } = useSelector((state: RootState) => state.auth);
+  
+  const recentApplications = [...applications]
+    .sort((a, b) => new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime())
+    .slice(0, 4);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -29,57 +34,55 @@ export default function DashboardPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold font-headline tracking-tight">Dashboard Overview</h1>
-            <p className="text-muted-foreground mt-1">Welcome back. Here's a summary of your job search progress.</p>
+      <div className="space-y-10 animate-in fade-in duration-700">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground">Welcome, {user?.name || 'Friend'}!</h1>
+            <p className="text-muted-foreground">Here's a look at how your job search is going today.</p>
           </div>
-          <Button onClick={() => router.push('/applications/new')} className="gap-2 shadow-lg shadow-primary/20">
-            <Plus className="w-4 h-4" />
-            Add Application
+          <Button onClick={() => router.push('/applications/new')} className="gap-2 rounded-full h-11 px-6 shadow-md">
+            <Plus className="w-5 h-5" />
+            Add a New Job
           </Button>
         </div>
 
         <SummaryCards />
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <StatusChart />
           
-          <Card className="col-span-1 lg:col-span-3 border-none shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between">
+          <Card className="col-span-1 lg:col-span-3 border shadow-sm rounded-3xl overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between bg-muted/20 pb-4">
               <div>
-                <CardTitle className="text-lg">Recent Applications</CardTitle>
-                <CardDescription>Your most recent submissions.</CardDescription>
+                <CardTitle className="text-lg">Recent Updates</CardTitle>
+                <CardDescription>Your most recent activity.</CardDescription>
               </div>
-              <Button variant="ghost" size="sm" onClick={() => router.push('/applications')} className="text-primary hover:text-primary/80">
-                View All <ArrowRight className="ml-2 w-4 h-4" />
+              <Button variant="ghost" size="sm" onClick={() => router.push('/applications')} className="text-primary font-semibold">
+                See all <ArrowRight className="ml-1 w-4 h-4" />
               </Button>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="pt-6">
+              <div className="space-y-3">
                 {recentApplications.length > 0 ? (
                   recentApplications.map((app) => (
-                    <div key={app.id} className="flex items-center justify-between p-3 rounded-lg border border-transparent hover:border-border hover:bg-muted/50 transition-all group">
+                    <div key={app.id} className="flex items-center justify-between p-4 rounded-2xl border bg-card hover:border-primary/30 transition-all group">
                       <div className="flex flex-col">
-                        <span className="font-semibold text-sm group-hover:text-primary transition-colors">{app.companyName}</span>
+                        <span className="font-bold text-sm group-hover:text-primary transition-colors">{app.companyName}</span>
                         <span className="text-xs text-muted-foreground">{app.jobRole}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <Badge variant="outline" className={`${getStatusColor(app.applicationStatus)} font-medium`}>
+                        <Badge variant="outline" className={`${getStatusColor(app.applicationStatus)} font-semibold rounded-full px-3`}>
                           {app.applicationStatus}
                         </Badge>
-                        <Link href={`/applications`}>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <ExternalLink className="h-4 w-4" />
-                          </Button>
-                        </Link>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" onClick={() => router.push('/applications')}>
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    No applications yet. Start tracking your journey!
+                  <div className="text-center py-12 text-muted-foreground italic">
+                    You haven't added any jobs yet. Let's start tracking!
                   </div>
                 )}
               </div>
