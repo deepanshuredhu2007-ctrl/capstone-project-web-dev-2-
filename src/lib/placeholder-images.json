@@ -1,3 +1,16 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Modern office space with computers and professional atmosphere",
+      "imageUrl": "https://picsum.photos/seed/jobtrack-hero/1200/800",
+      "imageHint": "modern office"
+    },
+    {
+      "id": "avatar-user",
+      "description": "Professional user avatar profile picture",
+      "imageUrl": "https://picsum.photos/seed/user-pro/100/100",
+      "imageHint": "professional person"
+    }
+  ]
 }
